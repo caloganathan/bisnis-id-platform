@@ -1,0 +1,12 @@
+{
+  "Navigation": {
+    "home": "Home",
+    "services": "Services", 
+    "pricing": "Pricing",
+    "about": "About"
+  },
+  "Hero": {
+    "title": "Start & Run Your Indonesian Business with Confidence",
+    "subtitle": "Complete PT/CV incorporation, automated bookkeeping, and Indonesian tax compliance."
+  }
+}

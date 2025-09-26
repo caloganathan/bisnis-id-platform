@@ -1,0 +1,12 @@
+{
+  "Navigation": {
+    "home": "Beranda",
+    "services": "Layanan",
+    "pricing": "Harga", 
+    "about": "Tentang"
+  },
+  "Hero": {
+    "title": "Mulai & Jalankan Bisnis Indonesia Anda dengan Percaya Diri",
+    "subtitle": "Pendirian PT/CV lengkap, pembukuan otomatis, dan kepatuhan pajak Indonesia."
+  }
+}
