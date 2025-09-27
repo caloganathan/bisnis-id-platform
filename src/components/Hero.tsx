@@ -8,23 +8,43 @@ export default function Hero() {
     name: '',
     email: '', 
     phone: '',
-    service: ''
+    service: '',
+    message: ''
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [error, setError] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setError('')
     
-    // Simulate form submission (replace with real API call)
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
-    setSubmitted(true)
-    setIsSubmitting(false)
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      })
+
+      const result = await response.json()
+
+      if (response.ok) {
+        setSubmitted(true)
+        setFormData({ name: '', email: '', phone: '', service: '', message: '' })
+      } else {
+        setError(result.error || 'Something went wrong')
+      }
+    } catch (err) {
+      setError('Network error. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
@@ -49,12 +69,15 @@ export default function Hero() {
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4 mb-8">
-              <button className="bg-white text-red-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors flex items-center justify-center">
+              <a 
+                href="/daftar"
+                className="bg-white text-red-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors flex items-center justify-center"
+              >
                 Start My Business
                 <ChevronRightIcon className="ml-2 h-5 w-5" />
-              </button>
+              </a>
               <button 
-                onClick={() => alert('Demo video coming soon!')}
+                onClick={() => alert('Demo video: A comprehensive walkthrough showing PT incorporation process, dashboard features, and tax compliance tools. Coming soon!')}
                 className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-red-600 transition-colors flex items-center justify-center"
               >
                 <PlayIcon className="mr-2 h-5 w-5" />
@@ -67,13 +90,20 @@ export default function Hero() {
             <div className="bg-white rounded-lg shadow-2xl p-8 max-w-md mx-auto">
               {submitted ? (
                 <div className="text-center">
-                  <h3 className="text-xl font-semibold text-green-600 mb-4">Thank You!</h3>
-                  <p className="text-gray-600">We'll contact you within 24 hours to discuss your business needs.</p>
+                  <div className="text-green-600 text-5xl mb-4">✓</div>
+                  <h3 className="text-xl font-semibold text-green-600 mb-4">Message Sent!</h3>
+                  <p className="text-gray-600 mb-4">Thank you for your interest. We'll contact you within 24 hours to discuss your Indonesian business setup needs.</p>
+                  <button 
+                    onClick={() => setSubmitted(false)}
+                    className="text-red-600 hover:text-red-700 text-sm underline"
+                  >
+                    Send another message
+                  </button>
                 </div>
               ) : (
                 <>
                   <h3 className="text-xl font-semibold text-gray-900 mb-6">
-                    Get Started Today
+                    Get Free Consultation
                   </h3>
                   <form onSubmit={handleSubmit} className="space-y-4">
                     <input
@@ -97,7 +127,7 @@ export default function Hero() {
                     <input
                       type="tel"
                       name="phone"
-                      placeholder="Phone Number"
+                      placeholder="Phone Number (+62 or international)"
                       value={formData.phone}
                       onChange={handleChange}
                       className="input"
@@ -110,19 +140,37 @@ export default function Hero() {
                       className="input"
                       required
                     >
-                      <option value="">Select Service</option>
-                      <option value="incorporation">PT/CV Incorporation</option>
-                      <option value="accounting">Accounting Services</option>
-                      <option value="complete">Complete Package</option>
+                      <option value="">Select Service Interest</option>
+                      <option value="PT Incorporation">PT Incorporation</option>
+                      <option value="CV Incorporation">CV Incorporation</option>
+                      <option value="Accounting Services">Accounting Services</option>
+                      <option value="Complete Package">Complete Package</option>
+                      <option value="General Inquiry">General Inquiry</option>
                     </select>
+                    <textarea
+                      name="message"
+                      placeholder="Tell us about your business plans (optional)"
+                      value={formData.message}
+                      onChange={handleChange}
+                      rows={3}
+                      className="input resize-none"
+                    />
+                    {error && (
+                      <div className="text-red-600 text-sm bg-red-50 p-3 rounded-lg">
+                        {error}
+                      </div>
+                    )}
                     <button 
                       type="submit" 
                       disabled={isSubmitting}
-                      className="w-full btn-primary disabled:opacity-50"
+                      className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      {isSubmitting ? 'Sending...' : 'Free Consultation'}
+                      {isSubmitting ? 'Sending...' : 'Get Free Consultation'}
                     </button>
                   </form>
+                  <p className="text-xs text-gray-500 text-center mt-4">
+                    We'll respond within 24 hours • No spam, promise
+                  </p>
                 </>
               )}
             </div>
