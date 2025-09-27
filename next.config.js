@@ -5,6 +5,10 @@ const nextConfig = {
   images: {
     domains: ['images.unsplash.com'],
   },
+  experimental: {
+    // Enable static export for better performance
+    optimizePackageImports: ['lucide-react']
+  }
 };
 
 module.exports = withNextIntl(nextConfig);
