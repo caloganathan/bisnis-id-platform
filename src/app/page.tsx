@@ -31,30 +31,6 @@ export default function HomePage() {
                 Registrasi bisnis lengkap dengan integrasi Kemenkumham dan semua dokumen yang diperlukan
               </p>
             </div>
-            
-            <div className="text-center p-6">
-              <div className="w-12 h-12 bg-indonesia-red rounded-lg flex items-center justify-center mx-auto mb-4">
-                <span className="text-white font-bold">2</span>
-              </div>
-              <h3 className="text-lg font-semibold mb-2">
-                Pembukuan otomatis dengan kepatuhan pajak Indonesia
-              </h3>
-              <p className="text-gray-600">
-                Akuntansi sesuai GAAP dengan manajemen PPh, PPN, dan e-Faktur otomatis
-              </p>
-            </div>
-            
-            <div className="text-center p-6">
-              <div className="w-12 h-12 bg-indonesia-red rounded-lg flex items-center justify-center mx-auto mb-4">
-                <span className="text-white font-bold">3</span>
-              </div>
-              <h3 className="text-lg font-semibold mb-2">
-                Alamat terdaftar lokal di kawasan bisnis Jakarta
-              </h3>
-              <p className="text-gray-600">
-                Alamat bisnis profesional yang memenuhi semua persyaratan regulasi
-              </p>
-            </div>
           </div>
         </div>
       </section>
