@@ -1,63 +1,94 @@
 'use client'
 
+import Link from 'next/link'
+import Image from 'next/image'
 import { useState } from 'react'
-import { MenuIcon, XIcon, GlobeIcon } from 'lucide-react'
+import { Bars3Icon, XMarkIcon, GlobeAltIcon } from '@heroicons/react/24/outline'
 
 export default function Nav() {
   const [isOpen, setIsOpen] = useState(false)
-  const [language, setLanguage] = useState('EN')
+  const [currentLang, setCurrentLang] = useState('EN')
 
   const toggleLanguage = () => {
-    setLanguage(language === 'EN' ? 'ID' : 'EN')
-    // In a real app, this would trigger a language change
+    setCurrentLang(currentLang === 'EN' ? 'ID' : 'EN')
   }
 
+  const navigation = [
+    { name: 'Home', href: '/' },
+    { name: 'Pricing', href: '/harga' },
+    { name: 'Services', href: '/layanan' },
+    { name: 'Case Studies', href: '/case-studies' },
+    { name: 'About', href: '/tentang' },
+    { name: 'Contact', href: '/kontak' },
+  ]
+
   return (
-    <nav className="fixed top-0 w-full bg-white shadow-sm z-50">
+    <nav className="bg-white shadow-lg fixed top-0 left-0 right-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <a href="/" className="flex items-center">
-              <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center mr-3">
-                <span className="text-white font-bold text-lg">B</span>
-              </div>
-              <span className="text-xl font-bold text-gray-900">Bisnis.ID</span>
-            </a>
+            <Link href="/" className="flex items-center">
+              <Image
+                src="/images/jcss-logo.png"
+                alt="JCSS Management Consulting"
+                width={120}
+                height={48}
+                className="h-12 w-auto"
+                priority
+              />
+            </Link>
           </div>
-          
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
-              <a href="/" className="text-gray-600 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium">
-                {language === 'EN' ? 'Home' : 'Beranda'}
-              </a>
-              <a href="/layanan" className="text-gray-600 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium">
-                {language === 'EN' ? 'Services' : 'Layanan'}
-              </a>
-              <a href="/harga" className="text-gray-600 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium">
-                {language === 'EN' ? 'Pricing' : 'Harga'}
-              </a>
-              <a href="/tentang" className="text-gray-600 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium">
-                {language === 'EN' ? 'About' : 'Tentang'}
-              </a>
-            </div>
-          </div>
-          
-          <div className="hidden md:flex items-center space-x-4">
+
+          <div className="hidden md:flex items-center space-x-6">
+            {navigation.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className="text-gray-600 hover:text-orange-600 px-3 py-2 text-sm font-medium transition-colors"
+              >
+                {item.name}
+              </Link>
+            ))}
+
             <button
               onClick={toggleLanguage}
-              className="flex items-center text-gray-600 hover:text-red-600 px-2 py-1 rounded-md text-sm"
+              className="flex items-center space-x-1 text-gray-600 hover:text-orange-600 px-3 py-2 text-sm font-medium transition-colors"
             >
-              <GlobeIcon className="h-4 w-4 mr-1" />
-              {language}
+              <GlobeAltIcon className="h-4 w-4" />
+              <span>{currentLang}</span>
             </button>
-            <a href="/masuk" className="text-gray-600 hover:text-red-600 px-3 py-2 text-sm font-medium">
-              {language === 'EN' ? 'Login' : 'Masuk'}
-            </a>
-            <a href="/daftar" className="btn-primary text-sm">
-              {language === 'EN' ? 'Get Started' : 'Mulai Sekarang'}
-            </a>
+
+            <Link
+              href="/daftar"
+              className="bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-700 transition-colors"
+            >
+              Get Started
+            </Link>
+          </div>
+
+          <div className="md:hidden flex items-center">
+            <button onClick={() => setIsOpen(!isOpen)} className="text-gray-600 hover:text-orange-600">
+              {isOpen ? <XMarkIcon className="h-6 w-6" /> : <Bars3Icon className="h-6 w-6" />}
+            </button>
           </div>
         </div>
+
+        {isOpen && (
+          <div className="md:hidden">
+            <div className="px-2 pt-2 pb-3 space-y-1 bg-white border-t border-gray-200">
+              {navigation.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className="text-gray-600 hover:text-orange-600 block px-3 py-2 text-base font-medium"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </nav>
   )
